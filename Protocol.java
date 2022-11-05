@@ -101,7 +101,6 @@ public class Protocol {
                 counter.setBufferLength(status);
             }
             long uploadedFileSize = uploadedFile.length();
-            System.out.println(uploadedFileSize + ", " + fileSize);
             if(uploadedFileSize != fileSize){
                 socket.close();
                 throw new FileCheckSumException("The checksum does not match the original file size," +
