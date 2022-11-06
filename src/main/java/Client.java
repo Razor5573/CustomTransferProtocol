@@ -18,8 +18,8 @@ public class Client {
             e.printStackTrace();
         }
 
-        String path = "C:\\Users\\nikit\\Downloads\\Telegram Desktop\\film1_v2.mp4";
-        String DNSorIP = "10.3.130.167";
+        String path = args[1];
+        String DNSorIP = args[2];
         File file = new File(path);
 
         try (Socket socket = new Socket(DNSorIP, port)){

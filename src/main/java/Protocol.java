@@ -80,12 +80,19 @@ public class Protocol {
             inputStream.read(fileNameBuffer);
 
             String fileName = new String(fileNameBuffer, StandardCharsets.UTF_8);
-            String currentDir = System.getProperty("user.dir");
-            currentDir = currentDir.replace('\\', '/');
-            String uploadedFileName = currentDir + "/src/main/java/uploads/" + fileName;
-            File uploadedFile = new File(uploadedFileName);
+            File uploadsDir = new File("uploads/");
+            uploadsDir.mkdir();
+            File uploadedFile = new File(uploadsDir + "/" + fileName);
 
             boolean createFileStatus = uploadedFile.createNewFile();
+            int i = 1;
+            while(!createFileStatus){
+                fileName = "uploads/" + "(" + i + ")" + fileName ;
+                uploadedFile = new File(fileName);
+                createFileStatus = uploadedFile.createNewFile();
+                i++;
+            }
+
             FileOutputStream uploadedFileStream = new FileOutputStream(uploadedFile);
 
             inputStream.read(fileSizeBuffer);
