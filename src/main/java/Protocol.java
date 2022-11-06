@@ -87,8 +87,7 @@ public class Protocol {
             boolean createFileStatus = uploadedFile.createNewFile();
             int i = 1;
             while(!createFileStatus){
-                fileName = "uploads/" + "(" + i + ")" + fileName ;
-                uploadedFile = new File(fileName);
+                uploadedFile = new File(uploadsDir + "/" +  "(" + i + ")" + fileName);
                 createFileStatus = uploadedFile.createNewFile();
                 i++;
             }

@@ -21,11 +21,11 @@ public class Counter implements Runnable{
         System.out.println("Current speed is: " + speed);
     }
 
-    void setBufferLength(int bufferLength){
+    public void setBufferLength(int bufferLength){
         this.bufferLength = bufferLength;
     }
 
-    Counter(int bufferLength){
+    public Counter(int bufferLength){
         this.bufferLength = bufferLength;
     }
 }
