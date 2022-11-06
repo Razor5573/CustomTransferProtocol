@@ -1,3 +1,3 @@
-Command to run Client: gradle run --args='8888' -PchooseMain=Client
+Command to run Client: gradle run --args='server_ip "your_file_path" "server_ip_adress_or_dns"' -PchooseMain=Client --scan
 
-Command to run Server: gradle run --args='8888' -PchooseMain=Server
+Command to run Server: gradle run --args='server_ip' -PchooseMain=Server
