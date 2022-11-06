@@ -3,22 +3,21 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class Counter implements Runnable{
-    ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(1);
+    private ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(1);
     private int bufferLength;
     private double summaryLength;
     private int timeFromSendStart;
-    private final int period = 2;
-    private double speed;
-
+    private final static int PERIOD = 2;
+    private final static int DELAY = 2;
     @Override
     public void run() {
-        scheduledThreadPool.scheduleAtFixedRate(this::countSpeed, 2, period, TimeUnit.SECONDS);
+        scheduledThreadPool.scheduleAtFixedRate(this::countSpeed, DELAY, PERIOD, TimeUnit.SECONDS);
     }
 
     private void countSpeed() {
         summaryLength += bufferLength;
-        timeFromSendStart += period;
-        speed = summaryLength/timeFromSendStart;
+        timeFromSendStart += PERIOD;
+        double speed = summaryLength / timeFromSendStart;
         System.out.println("Current speed is: " + speed);
     }
 

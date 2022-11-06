@@ -1,6 +1,6 @@
-import Exceptions.FileCheckSumException;
-import Exceptions.FileNameSizeException;
-import Exceptions.FileSizeException;
+import exceptions.FileCheckSumException;
+import exceptions.FileNameSizeException;
+import exceptions.FileSizeException;
 
 import java.io.*;
 import java.net.Socket;
@@ -71,18 +71,21 @@ public class Protocol {
         try {
             InputStream inputStream = socket.getInputStream();
 
-            inputStream.read(fileNameSizeBuffer, 0, 8);
+            inputStream.read(fileNameSizeBuffer);
             for (byte b : fileNameSizeBuffer) {
                 fileNameSize = (fileNameSize << 8) + (b & 0xFF);           //from bytes to long
             }
 
             byte[] fileNameBuffer = new byte[(int) fileNameSize];
-            inputStream.read(fileNameBuffer, 0, (int) fileNameSize);
+            inputStream.read(fileNameBuffer);
 
             String fileName = new String(fileNameBuffer, StandardCharsets.UTF_8);
-            String uploadedFileName = "C:/Users/nikit/IdeaProjects/CustomTransferProtocol/src/main/java/uploads/" + fileName;
+            String currentDir = System.getProperty("user.dir");
+            currentDir = currentDir.replace('\\', '/');
+            String uploadedFileName = currentDir + "/src/main/java/uploads/" + fileName;
             File uploadedFile = new File(uploadedFileName);
-            uploadedFile.createNewFile();
+
+            boolean createFileStatus = uploadedFile.createNewFile();
             FileOutputStream uploadedFileStream = new FileOutputStream(uploadedFile);
 
             inputStream.read(fileSizeBuffer);
@@ -106,7 +109,6 @@ public class Protocol {
                 throw new FileCheckSumException("The checksum does not match the original file size," +
                         " something went wrong during the upload process");
             }
-            System.out.println(uploadedFileSize + ", " + fileSize);
         } catch (IOException e) {
             e.printStackTrace();
         }

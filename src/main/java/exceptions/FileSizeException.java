@@ -1,4 +1,4 @@
-package Exceptions;
+package exceptions;
 
 public class FileSizeException extends RuntimeException{
     public FileSizeException(String message){

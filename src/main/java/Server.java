@@ -8,12 +8,9 @@ public class Server {
     static private final ExecutorService threadPool = Executors.newCachedThreadPool();
     public static void main(String[] args) {
         int port = Integer.parseInt(args[0]);
-        ServerSocket socket;
-
-        socket = Creator.createServerSocket(port);
 
         while(true){
-            try {
+            try (ServerSocket socket = new ServerSocket(port)){
                 Socket finalClientSocket = socket.accept();
                 threadPool.submit(() -> Protocol.receiveFile(finalClientSocket));
             } catch (IOException e) {
