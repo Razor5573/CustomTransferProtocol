@@ -2,12 +2,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static java.lang.Thread.sleep;
+
 public class Counter implements Runnable{
     private ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(1);
-    private int bufferLength;
-    private double summaryLength;
+    private int uploadedSizeCount;
+    private double summarySize;
     private int timeFromSendStart;
-    private final static int PERIOD = 2;
+    private final static int PERIOD = 1;
     private final static int DELAY = 2;
     @Override
     public void run() {
@@ -15,17 +17,22 @@ public class Counter implements Runnable{
     }
 
     private void countSpeed() {
-        summaryLength += bufferLength;
+        summarySize += uploadedSizeCount;
         timeFromSendStart += PERIOD;
-        double speed = summaryLength / timeFromSendStart;
-        System.out.println("Current speed is: " + speed);
+        double averageSpeed = summarySize / timeFromSendStart;
+        System.out.println("Average speed speed is: " + averageSpeed);
+        System.out.println("Current speed is: " + uploadedSizeCount);
     }
 
-    public void setBufferLength(int bufferLength){
-        this.bufferLength = bufferLength;
+    public void setUploadedSizeCount(int uploadedSizeCount){
+        this.uploadedSizeCount = uploadedSizeCount;
     }
 
-    public Counter(int bufferLength){
-        this.bufferLength = bufferLength;
+    public void shutdown(){
+        scheduledThreadPool.shutdown();
+    }
+
+    public Counter(int uploadedSizeCount){
+        this.uploadedSizeCount = uploadedSizeCount;
     }
 }

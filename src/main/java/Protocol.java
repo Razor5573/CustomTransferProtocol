@@ -107,8 +107,9 @@ public class Protocol {
                 if(status != -1){
                     uploadedFileStream.write(fileBuffer, 0, status);
                 }
-                counter.setBufferLength(status);
+                counter.setUploadedSizeCount(status);
             }
+            counter.shutdown();
             long uploadedFileSize = uploadedFile.length();
             if(uploadedFileSize != fileSize){
                 socket.close();
@@ -116,6 +117,7 @@ public class Protocol {
                         " something went wrong during the upload process");
             }
         } catch (IOException e) {
+            counter.shutdown();
             e.printStackTrace();
         }
         try {
